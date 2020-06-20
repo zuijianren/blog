@@ -217,6 +217,13 @@
         where
             id = #{blog.id}
     </update>
+    <update id="updateViews" parameterType="long">
+        update t_blog
+        set
+            views = views + 1
+        where
+            id = #{id}
+    </update>
     <!--delete-->
     <delete id="delete" parameterType="long">
         delete from t_blog where id = #{id}

@@ -1,5 +1,5 @@
 body {
-    background-image: url("../images/bg.gif");
+    background-image: url("../images/bg.jpg") ;
 }
 /*---padding---*/
 .m-padded-mini {
@@ -108,6 +108,7 @@ body {
 .m-opacity-tiny {
     opacity: .6;
 }
+
 
 /*---color----*/
 .m-black {

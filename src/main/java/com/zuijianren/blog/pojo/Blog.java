@@ -37,6 +37,7 @@ public class Blog {
     public void setId(){
         Date date = new Date();
         long time = date.getTime();
+        setId(time);
     }
 
 

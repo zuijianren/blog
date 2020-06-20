@@ -94,6 +94,8 @@ public class BlogServiceImpl implements BlogService {
         if(blog ==null){
             throw new BlogNotFoundException("该博客已被删除");
         }
+        //blog的浏览次数加 1
+        blogMapper.updateViews(id);
         Blog b = new Blog();
         BeanUtils.copyProperties(blog,b);
         String content = b.getContent();
@@ -137,8 +139,8 @@ public class BlogServiceImpl implements BlogService {
 
         pageResult.fill();
 
-        //根据updateTime排序，反序，每页6条数据
-        pageResult.setSort("updateTime");
+        //根据 createTime 排序，反序，每页6条数据
+        pageResult.setSort("createTime");
         pageResult.setDesc(true);
         pageResult.setSize(6);
         pageResult.setList(blogMapper.listPublished(pageResult));

@@ -32,8 +32,11 @@ public interface BlogMapper {
     public Blog findById(@Param("id") long id);
 
     public int update(@Param("blog") Blog blog);
+    public void updateViews(@Param("id") long id);
 
     public int delete(@Param("id") long id);
 
     public int save(@Param("blog") Blog blog);
+
+
 }
