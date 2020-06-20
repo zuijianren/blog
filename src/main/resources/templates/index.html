@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="_fragments :: head(~{::title})">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>首页</title>
+  <link rel="stylesheet" href="../static/css/semantic.min.css" th:href="@{/css/semantic.min.css}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+  <link rel="stylesheet" href="../static/css/mine.css" th:href="@{/css/mine.css}">
+</head>
+<body>
+<!--导航-->
+<nav th:replace="_fragments :: menu('index')" class="ui inverted attached segment m-padded-tb-mini">
+  <div class="ui container">
+    <!--stackable: 兼容手机端，可堆叠-->
+    <div class="ui inverted menu secondary stackable">
+      <h2 class="ui header teal item ">Blog</h2>
+      <a href="#" class="item m-mobile-hide m-item active"><i class="mini home icon"></i>首页</a>
+      <a href="#" class="item m-mobile-hide m-item"><i class="mini idea icon"></i>分类</a>
+      <a href="#" class="item m-mobile-hide m-item"><i class="mini tags icon"></i>标签</a>
+      <a href="#" class="item m-mobile-hide m-item"><i class="mini clone icon"></i>归档</a>
+      <a href="#" class="item m-mobile-hide m-item"><i class="mini info icon"></i>关于我</a>
+      <div class="right item m-mobile-hide m-item">
+<!--        <div class="ui icon input transparent inverted ">-->
+        <div class="ui icon input  ">
+          <input type="text" placeholder="Search...">
+          <i class="search icon"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a href="#" class="m-sidebar ui button icon black m-right-top m-mobile-show">
+    <i class="sidebar icon"></i>
+  </a>
+</nav>
+
+<!--中间内容-->
+<div  class="m-container m-padded-tb-huge ">
+  <div class="ui container ">
+    <div class="ui stackable grid">
+      <!--左边博客列表-->
+      <div class="eleven wide column">
+        <!--header-->
+        <div class="ui segment top attached">
+          <div class="ui two column grid middle aligned">
+            <div class="column">
+              <h3 class="ui teal header">博客</h3>
+            </div>
+            <div class=" right aligned column">
+              共 <h2 class="ui orange header m-inline-block m-text-thin" th:text="${pages.totalElements}">5</h2> 篇
+            </div>
+          </div>
+        </div>
+        <!--content-->
+        <div class="ui attached segment ">
+          <div class="ui padded  vertical segment m-padded-tb-large" th:each="page : ${pages.list}">
+            <!--mobile reversed:手机端进行反转显示-->
+            <div class="ui stackable grid mobile reversed middle aligned">
+              <div class="eleven wide column">
+                <h3 class="ui header"  >
+                  <a href="#" th:href="@{/blog/{id}(id=${page.id})}" th:text="${page.title}" target="_blank" class="m-black">spring boot学习</a>
+                </h3>
+                <p class="m-text" th:text="|${page.description}......|">SpringBoot对上述Spring的缺点进行的改善和优化，基于约定优于配置的思想，可以让开发人员不必在配置与逻辑业务之间进行思维的切换，全身心的投入到逻辑业务的代码编写中，从而大大提高了开发的效率，一定程度上缩短了项目周期。</p>
+                <div class="ui stackable grid ">
+                  <div class="eleven wide column  middle aligned">
+                    <div class="ui mini horizontal link list">
+                      <div class="item">
+                        <img src="https://picsum.photos/id/1010/100/100" th:src="@{${page.user.avatar}}" alt="" class="ui avatar image">
+                        <div class="content">
+                          <a href="#" th:text="${page.user.nickname}" class="header">姜辞旧</a>
+                        </div>
+                      </div>
+                      <div class="item" >
+                        <i class="calendar icon" ></i><span th:text="${#dates.format(page.updateTime,'yyyy-MM-dd')}">2020-6-01</span>
+                      </div>
+                      <div class="item" >
+                        <i class="eye icon" ></i><span th:text="${page.views}">22</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class=" five wide  column right aligned">
+                    <a href="#" th:text="${page.type.name}" target="_blank" class="ui teal basic label m-padded-tiny m-text-thin">认知升级</a>
+                  </div>
+                </div>
+              </div>
+              <div class="five wide column">
+                <a href="#" th:href="@{/blog/{id}(id=${page.id})}" class="" target="_blank">
+                  <img src="https://picsum.photos/id/1012/800/450" th:src="@{${page.firstPicture}}" alt="" class="ui rounded image">
+                </a>
+              </div>
+            </div>
+          </div>
+          <!--/*-->
+          <div class="ui padded  segment m-padded-tb-large">
+            <!--mobile reversed:手机端进行反转显示-->
+            <div class="ui stackable grid mobile reversed">
+              <div class="eleven wide column">
+                <h3 class="ui header">spring boot学习</h3>
+                <p class="m-text">SpringBoot对上述Spring的缺点进行的改善和优化，基于约定优于配置的思想，可以让开发人员不必在配置与逻辑业务之间进行思维的切换，全身心的投入到逻辑业务的代码编写中，从而大大提高了开发的效率，一定程度上缩短了项目周期。</p>
+                <div class="ui stackable grid ">
+                  <div class="eleven wide column  middle aligned">
+                    <div class="ui mini horizontal link list">
+                      <div class="item">
+                        <img src="https://picsum.photos/id/1010/100/100" alt="" class="ui avatar image">
+                        <div class="content">
+                          <a href="#" class="header">李仁密</a>
+                        </div>
+                      </div>
+                      <div class="item" >
+                        <i class="calendar icon" ></i>2020-5-30
+                      </div>
+                      <div class="item" >
+                        <i class="eye icon" ></i>857
+                      </div>
+                    </div>
+                  </div>
+                  <div class=" five wide  column right aligned">
+                    <a href="#" target="_blank" class="ui teal basic label m-padded-tiny m-text-thin">认知升级</a>
+                  </div>
+                </div>
+              </div>
+              <div class="five wide column">
+                <a href="#" class="" target="_blank">
+                  <img src="https://picsum.photos/id/1012/800/450" alt="" class="ui rounded image">
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="ui padded  segment m-padded-tb-large">
+            <!--mobile reversed:手机端进行反转显示-->
+            <div class="ui stackable grid mobile reversed">
+              <div class="eleven wide column">
+                <h3 class="ui header">spring boot学习</h3>
+                <p class="m-text">SpringBoot对上述Spring的缺点进行的改善和优化，基于约定优于配置的思想，可以让开发人员不必在配置与逻辑业务之间进行思维的切换，全身心的投入到逻辑业务的代码编写中，从而大大提高了开发的效率，一定程度上缩短了项目周期。</p>
+                <div class="ui stackable grid ">
+                  <div class="eleven wide column  middle aligned">
+                    <div class="ui mini horizontal link list">
+                      <div class="item">
+                        <img src="https://picsum.photos/id/1010/100/100" alt="" class="ui avatar image">
+                        <div class="content">
+                          <a href="#" class="header">李仁密</a>
+                        </div>
+                      </div>
+                      <div class="item" >
+                        <i class="calendar icon" ></i>2020-5-30
+                      </div>
+                      <div class="item" >
+                        <i class="eye icon" ></i>857
+                      </div>
+                    </div>
+                  </div>
+                  <div class=" five wide  column right aligned">
+                    <a href="#" target="_blank" class="ui teal basic label m-padded-tiny m-text-thin">认知升级</a>
+                  </div>
+                </div>
+              </div>
+              <div class="five wide column">
+                <a href="#" class="" target="_blank">
+                  <img src="https://picsum.photos/id/1012/800/450" alt="" class="ui rounded image">
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="ui padded  segment m-padded-tb-large">
+            <!--mobile reversed:手机端进行反转显示-->
+            <div class="ui stackable grid mobile reversed">
+              <div class="eleven wide column">
+                <h3 class="ui header">spring boot学习</h3>
+                <p class="m-text">SpringBoot对上述Spring的缺点进行的改善和优化，基于约定优于配置的思想，可以让开发人员不必在配置与逻辑业务之间进行思维的切换，全身心的投入到逻辑业务的代码编写中，从而大大提高了开发的效率，一定程度上缩短了项目周期。</p>
+                <div class="ui stackable grid ">
+                  <div class="eleven wide column  middle aligned">
+                    <div class="ui mini horizontal link list">
+                      <div class="item">
+                        <img src="https://picsum.photos/id/1010/100/100" alt="" class="ui avatar image">
+                        <div class="content">
+                          <a href="#" class="header">李仁密</a>
+                        </div>
+                      </div>
+                      <div class="item" >
+                        <i class="calendar icon" ></i>2020-5-30
+                      </div>
+                      <div class="item" >
+                        <i class="eye icon" ></i>857
+                      </div>
+                    </div>
+                  </div>
+                  <div class=" five wide  column right aligned">
+                    <a href="#" target="_blank" class="ui teal basic label m-padded-tiny m-text-thin">认知升级</a>
+                  </div>
+                </div>
+              </div>
+              <div class="five wide column">
+                <a href="#" class="" target="_blank">
+                  <img src="https://picsum.photos/id/1012/800/450" alt="" class="ui rounded image">
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="ui padded  segment m-padded-tb-large">
+            <!--mobile reversed:手机端进行反转显示-->
+            <div class="ui stackable grid mobile reversed">
+              <div class="eleven wide column">
+                <h3 class="ui header">spring boot学习</h3>
+                <p class="m-text">SpringBoot对上述Spring的缺点进行的改善和优化，基于约定优于配置的思想，可以让开发人员不必在配置与逻辑业务之间进行思维的切换，全身心的投入到逻辑业务的代码编写中，从而大大提高了开发的效率，一定程度上缩短了项目周期。</p>
+                <div class="ui stackable grid ">
+                  <div class="eleven wide column  middle aligned">
+                    <div class="ui mini horizontal link list">
+                      <div class="item">
+                        <img src="https://picsum.photos/id/1010/100/100" alt="" class="ui avatar image">
+                        <div class="content">
+                          <a href="#" class="header">李仁密</a>
+                        </div>
+                      </div>
+                      <div class="item" >
+                        <i class="calendar icon" ></i>2020-5-30
+                      </div>
+                      <div class="item" >
+                        <i class="eye icon" ></i>857
+                      </div>
+                    </div>
+                  </div>
+                  <div class=" five wide  column right aligned">
+                    <a href="#" target="_blank" class="ui teal basic label m-padded-tiny m-text-thin">认知升级</a>
+                  </div>
+                </div>
+              </div>
+              <div class="five wide column">
+                <a href="#" class="" target="_blank">
+                  <img src="https://picsum.photos/id/1012/800/450" alt="" class="ui rounded image">
+                </a>
+              </div>
+            </div>
+          </div>
+          <!--*/-->
+        </div>
+        <!--bottom-->
+        <div class="ui segment bottom attached" th:if="${pages.totalPages}>1">
+          <div class="ui three column grid ">
+            <div class="left aligned column">
+              <a href="#" th:href="@{/(page=${pages.page}-1)}" th:unless="${pages.first}" class="ui mini teal basic button">上一页</a>
+            </div>
+            <div class="left aligned column">
+              <p  th:text="'第 '+${pages.page}+' 页 / 共 '+${pages.totalPages}+' 页'"  class="m-padded-tb-tiny center aligned m-text " >第1页</p>
+            </div>
+            <div class="right aligned column">
+              <a href="#" th:href="@{/(page=${pages.page}+1)}" th:unless="${pages.last}" class="ui mini teal basic button">下一页</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--右边的top-->
+      <div class="five wide column">
+        <!--分类-->
+        <div class="ui segments">
+          <div class="ui secondary segment">
+            <div class="ui two column grid">
+              <div class="column">
+                <i class="idea icon"></i>分类
+              </div>
+              <div class="right aligned column">
+                <a href="#" th:href="@{/type}" target="_blank">more <i class="angle double right icon"></i></a>
+              </div>
+            </div>
+            <div class="ui teal   segment">
+              <div class="ui  vertical menu fluid">
+                <a href="#" th:href="@{/type/{id}(id=${type.id})}" th:each="type : ${types}" target="_blank" class="item">
+                  <span th:text="${type.name}">学习日志</span>
+                  <div th:text="${type.num}" class="ui teal basic  label left pointing">13</div>
+                </a>
+                <!--/*-->
+                <a href="#" target="_blank" class="item">
+                  学习日志
+                  <div class="ui teal basic  label left pointing">13</div>
+                </a>
+                <a href="#" target="_blank" class="item">
+                  学习日志
+                  <div class="ui teal basic  label left pointing">13</div>
+                </a>
+                <a href="#" target="_blank" class="item">
+                  学习日志
+                  <div class="ui teal basic  label left pointing">13</div>
+                </a>
+                <a href="#" target="_blank" class="item">
+                  学习日志
+                  <div class="ui teal basic  label left pointing">13</div>
+                </a>
+                <!--*/-->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--标签-->
+        <div class="ui segments m-margin-top-big">
+          <div class="ui secondary segment">
+            <!--标签head-->
+            <div class="ui two column grid">
+              <div class="column">
+                <i class="tags icon"></i>标签
+              </div>
+              <div class="right aligned column">
+                <a href="#" th:href="@{/tag}" target="_blank">more <i class="angle double right icon"></i></a>
+              </div>
+            </div>
+            <div class="ui teal segment">
+              <a href=""  th:href="@{/tag/{id}(id=${tag.id})}" th:each="tag : ${tags}" class="ui teal basic left pointing label m-margin-tb-tiny" target="_blank">
+                <span  th:text="${tag.name}">方法论</span><div th:text="${tag.num}" class="detail ">23</div>
+              </a>
+              <!--/*-->
+              <a href="" class="ui teal basic left pointing label m-margin-tb-tiny" target="_blank">
+                方法 <div class="detail">23</div>
+              </a>
+              <a href="" class="ui teal basic left pointing label m-margin-tb-tiny" target="_blank">
+                牧濑红莉栖 <div class="detail">23</div>
+              </a>
+              <a href="" class="ui teal basic left pointing label m-margin-tb-tiny" target="_blank">
+                牧濑红莉栖 <div class="detail">23</div>
+              </a>
+              <a href="" class="ui teal basic left pointing label m-margin-tb-tiny" target="_blank">
+                方法论 <div class="detail">23</div>
+              </a>
+              <!--*/-->
+            </div>
+          </div>
+        </div>
+        <!--最新推荐-->
+        <div class="ui segments m-margin-top-big">
+          <div class="ui secondary segment">
+            <i class="bookmark icon"></i>最新推荐
+          </div>
+          <div class="ui segment " th:each="blog : ${blogs}">
+            <a href="#" th:href="@{/blog/{id}(id=${blog.id})}" th:text="${blog.title}" class="m-black m-text" target="_blank" >用户故事</a>
+          </div>
+          <!--/*-->
+          <div class="ui segment ">
+            <a href="#" class="m-black m-text" target="_blank" >用户故事</a>
+          </div>
+          <div class="ui segment ">
+            <a href="#" class="m-black m-text" target="_blank" >用户故事</a>
+          </div>
+          <div class="ui segment ">
+            <a href="#" class="m-black m-text" target="_blank" >用户故事</a>
+          </div>
+          <!--*/-->
+        </div>
+        <!--&lt;!&ndash;二维码&ndash;&gt;
+        <h4 class="ui horizontal divider header m-margin-top-big">扫码关注我</h4>
+        <div class="ui centered aligned card m-margin-top-small" style="width: 150px">
+          <img src="../static/images/zaixia.jfif" th:src="@{/images/zaixia.jpg}" alt="" class="ui rounded image">
+        </div>-->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--底部footer-->
+<footer th:replace="_fragments :: footer" class="ui inverted vertical segment">
+  <div class="ui  container center aligned">
+    <!--共计16列-->
+    <div class="ui inverted divided stackable grid">
+      <div class="three wide column ">
+        <div class="ui inverted link list">
+          <div class="item">
+            <img src="../static/images/zaixia.jfif" th:src="@{/images/zaixia.jpg}" alt="" class="ui rounded image " style="width: 100px">
+          </div>
+        </div>
+      </div>
+      <div class="three wide column">
+        <h4 class="ui inverted header m-text-thin m-text-spaced m-text-lined ">最新博客</h4>
+        <div class="ui inverted link list">
+          <a href="#" class="item">用户故事（用户1）</a>
+          <a href="#" class="item">用户故事（用户1）</a>
+          <a href="#" class="item">用户故事（用户1）</a>
+        </div>
+      </div>
+      <div class="three wide column">
+        <h4 class="ui inverted header m-text-thin m-text-spaced m-text-lined">联系我</h4>
+        <div class="ui inverted link list ">
+          <a href="#" class="item">Email: 1460742681@qq.com</a>
+          <a href="#" class="item">QQ: 1460742681</a>
+        </div>
+      </div>
+      <div class="seven wide column">
+        <h4 class="ui inverted header  m-text-thin m-text-spaced m-text-lined">最新博客</h4>
+        <p class="m-opacity-mini m-text-thin m-text-spaced m-text-lined">这是我的个人博客，会分享关于编程，写作，思考相关的任何内容，希望可以给来到这的人有所帮助</p>
+      </div>
+    </div>
+    <div class="ui inverted section divider"></div>
+    <a class="m-opacity-tiny m-text-thin m-text-spaced m-text-lined" href="http://www.beian.miit.gov.cn" style="color: white">蜀ICP备19036253号</a>
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+  <script>
+    $('.m-sidebar').click(function(){
+      $('.m-item').toggleClass('m-mobile-hide');
+    });
+  </script>
+</body>
+</html>

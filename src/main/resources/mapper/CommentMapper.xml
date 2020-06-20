@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zuijianren.blog.mapper.CommentMapper">
+    <resultMap id="MyComment" type="comment">
+        <id property="id" column="id"></id>
+        <result property="nickname" column="nickname"></result>
+        <result property="email" column="email"></result>
+        <result property="content" column="content"></result>
+        <result property="avatar" column="avatar"></result>
+        <result property="blogId" column="blog_id"></result>
+        <result property="createTime" column="createTime"></result>
+        <result property="parentCommentId" column="parent_comment_id"></result>
+        <result property="topCommentId" column="top_comment_id"></result>
+        <result property="admin" column="admin"></result>
+    </resultMap>
+    <insert id="save" parameterType="comment">
+        insert into
+        t_comment(
+         id,
+         nickname,
+         email,
+         content,
+         avatar,
+         blog_id,
+         parent_comment_id,
+         top_comment_id,
+         admin)
+        values(#{comment.id}, #{comment.nickname}, #{comment.email}, #{comment.content}, #{comment.avatar}, #{comment.blogId}, #{comment.parentCommentId}, #{comment.topCommentId}, #{comment.admin})
+    </insert>
+    <update id="updateContentCommentById" >
+        update t_comment set content = #{s} where id = #{id}
+    </update>
+    <select id="listComment" parameterType="long" resultMap="MyComment">
+        select * from t_comment where blog_id = #{bId} and parent_comment_id = -1 order by createTime
+    </select>
+    <select id="listReplies" parameterType="comment" resultMap="MyComment">
+        select * from t_comment
+        where
+            blog_id = #{comment.blogId}
+        and
+            top_comment_id = #{comment.id}
+        and
+            parent_comment_id != -1
+        order by createTime
+    </select>
+    <select id="findCommentById" parameterType="long" resultMap="MyComment">
+        select * from t_comment where id = #{id}
+    </select>
+</mapper>

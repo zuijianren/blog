@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zuijianren.blog.mapper.BlogMapper">
+    <!--结果封装-->
+    <resultMap id="myBlog" type="blog">
+        <id property="id" column="id" ></id>
+        <result property="title" column="title"></result>
+        <result property="content" column="content"></result>
+        <result property="firstPicture" column="firstPicture"></result>
+        <result property="flag" column="flag"></result>
+        <result property="views" column="views"></result>
+        <result property="appreciation" column="appreciation"></result>
+        <result property="shareStatement" column="shareStatement"></result>
+        <result property="commentabled" column="commentabled"></result>
+        <result property="published" column="published"></result>
+        <result property="recommend" column="recommend"></result>
+        <result property="createTime" column="createTime"></result>
+        <result property="updateTime" column="updateTime"></result>
+        <result property="description" column="description"></result>
+        <association property="type" javaType="type">
+            <id column="tId" property="id"/>
+            <result  column="tName"  property="name"/>
+        </association>
+        <association property="user" javaType="user">
+            <id column="uId" property="id"/>
+            <result column="uName" property="nickname"/>
+            <result column="avatar" property="avatar"/>
+        </association>
+    </resultMap>
+    <!--sql提取-->
+    <sql id="countSql">
+        SELECT
+            count(*)
+        FROM
+            t_blog as b,
+            t_user as u,
+            t_type as t
+        where
+            b.user_id = u.id
+        and
+            b.type_id = t.id
+    </sql>
+    <sql id="selectSql">
+        SELECT
+            b.*,
+            u.id as uId, u.nickname as uName, u.avatar,  t.id as tId, t.name as tName
+        FROM
+            t_blog as b,
+            t_user as u,
+            t_type as t
+        where
+            b.user_id = u.id
+        and
+            b.type_id = t.id
+    </sql>
+    <sql id="order" >
+        <if test="pageResult.desc">
+            order by ${pageResult.sort} desc
+        </if>
+        <if test="!pageResult.desc">
+            order by ${pageResult.sort}
+        </if>
+    </sql>
+    <sql id="limit">
+        limit
+        #{pageResult.start}, #{pageResult.size}
+    </sql>
+    <!--计数查询-->
+    <select id="count" resultType="int">
+        <include refid="countSql"></include>
+    </select>
+    <select id="countByTitle" parameterType="string" resultType="int">
+        <include refid="countSql"></include>
+        and
+            title = #{title}
+    </select>
+    <select id="countPublished" resultType="int">
+        <include refid="countSql"></include>
+        and
+            b.published = true
+    </select>
+    <select id="countPublishedSearch" resultType="int" parameterType="string">
+        <include refid="countSql"></include>
+        and
+            b.published = true
+        and
+            (content like "%${query}%" || title like "%${query}%" || description like "%${query}%" )
+    </select>
+    <select id="countPublishedByTId" parameterType="long" resultType="int">
+        <include refid="countSql"></include>
+        and
+            b.published = true
+        and
+            b.type_id = #{tId}
+    </select>
+    <select id="searchCount" resultType="int" parameterType="blogRequest">
+        select count(*)
+        from
+            t_blog as b,
+            t_type as t
+        <where>
+            b.type_id = t.id
+            <if test="blogRequest.title != null and blogRequest.title != ''">
+                and title like '%${blogRequest.title}%'
+            </if>
+            <if test="blogRequest.typeId != null and blogRequest.typeId != 0">
+                and type_id = #{blogRequest.typeId}
+            </if>
+            <if test="blogRequest.recommend == true">
+                and recommend = #{blogRequest.recommend}
+            </if>
+        </where>
+    </select>
+    <!--list-->
+    <select id="listDate" resultType="string">
+        SELECT DATE_FORMAT(createTime,'%Y.%m') as `date`
+        from t_blog
+        group by `date`
+        order by `date` desc
+    </select>
+    <select id="listPublishedRecommendTop"  resultMap="myBlog" >
+        <include refid="selectSql"></include>
+        and
+            b.published = true
+        and
+            b.recommend = true
+        order by updateTime desc
+        limit
+            0,8
+    </select>
+    <select id="listPublishedByDate" parameterType="string" resultMap="myBlog">
+        <include refid="selectSql"></include>
+        and
+            DATE_FORMAT(b.createTime,'%Y.%m') = #{date}
+        and
+            b.published = true
+        order by b.createTime desc
+    </select>
+    <select id="list"  resultMap="myBlog" parameterType="pageResult">
+        <include refid="selectSql"></include>
+        <include refid="order"></include>
+        <include refid="limit"></include>
+    </select>
+    <select id="listPublished"  resultMap="myBlog" parameterType="pageResult">
+        <include refid="selectSql"></include>
+        and
+            b.published = true
+        <include refid="order"></include>
+        <include refid="limit"></include>
+    </select>
+    <select id="listPublishedSearch"  resultMap="myBlog">
+        <include refid="selectSql"></include>
+        and
+            b.published = true
+        and
+            (content like "%${query}%" || title like "%${query}%" || description like "%${query}%")
+        <include refid="order"></include>
+        <include refid="limit"></include>
+    </select>
+    <select id="listPublishedByTId" resultMap="myBlog">
+        <include refid="selectSql"></include>
+        and
+            b.published = true
+        and
+            b.type_id = #{tId}
+        <include refid="order"></include>
+        <include refid="limit"></include>
+    </select>
+    <select id="listSearch"  resultMap="myBlog">
+        SELECT
+        b.*,
+        u.id as uId, u.nickname as uName, u.avatar,  t.id as tId, t.name as tName
+        FROM
+        t_blog as b,
+        t_user as u,
+        t_type as t
+        <where>
+            b.type_id = t.id
+            and
+            b.user_id = u.id
+            <if test="blogRequest.title != null and blogRequest.title != ''">
+                and title like '%${blogRequest.title}%'
+            </if>
+            <if test="blogRequest.typeId != null and blogRequest.typeId != 0">
+                and type_id = #{blogRequest.typeId}
+            </if>
+            <if test="blogRequest.recommend == true">
+                and recommend = #{blogRequest.recommend}
+            </if>
+        </where>
+        <include refid="order"></include>
+        <include refid="limit"></include>
+    </select>
+    <!--select-->
+    <select id="findById" resultMap="myBlog">
+        <include refid="selectSql"></include>
+        and
+        b.id = #{id}
+    </select>
+    <!--update-->
+    <update id="update" parameterType="blog">
+        update t_blog
+        set
+            title = #{blog.title},
+            content = #{blog.content},
+            firstPicture = #{blog.firstPicture},
+            flag = #{blog.flag},
+            views = #{blog.views},
+            appreciation = #{blog.appreciation},
+            shareStatement = #{blog.shareStatement},
+            commentabled = #{blog.commentabled},
+            published = #{blog.published},
+            recommend = #{blog.recommend},
+            type_id = #{blog.type.id},
+            updateTime = DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%s'),
+            description = #{blog.description}
+        where
+            id = #{blog.id}
+    </update>
+    <!--delete-->
+    <delete id="delete" parameterType="long">
+        delete from t_blog where id = #{id}
+    </delete>
+    <!--insert-->
+    <insert id="save">
+        insert into t_blog(id, title, content, firstPicture, flag, views, appreciation, shareStatement, commentabled,
+            published, recommend, type_id, description)
+        values(#{blog.id} ,#{blog.title}, #{blog.content}, #{blog.firstPicture}, #{blog.flag}, #{blog.views},
+            #{blog.appreciation}, #{blog.shareStatement}, #{blog.commentabled}, #{blog.published}, #{blog.recommend},
+            #{blog.type.id}, #{blog.description})
+    </insert>
+</mapper>

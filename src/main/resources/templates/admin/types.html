@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="admin/_fragments :: head(~{::title})">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>分类管理</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+  <link rel="stylesheet" href="../../static/css/mine.css" th:href="@{/css/mine.css}">
+</head>
+<body>
+<!--导航-->
+<nav th:replace="admin/_fragments :: menu('types')" class="ui inverted attached segment m-padded-tb-mini">
+  <div class="ui container">
+    <!--stackable: 兼容手机端，可堆叠-->
+    <div class="ui inverted menu secondary stackable">
+      <h2 class="ui header teal item ">管理后台</h2>
+      <a href="#" class="item m-mobile-hide m-item "><i class="mini home icon"></i>博客</a>
+      <a href="#" class="item m-mobile-hide m-item "><i class="mini idea icon"></i>分类</a>
+      <a href="#" class="item m-mobile-hide m-item"><i class="mini tags icon"></i>标签</a>
+      <div class="right menu m-item m-mobile-hide">
+        <div class="ui dropdown item">
+          <div class="text">
+            <img src="https://picsum.photos/id/88/100/100" alt="" class="ui avatar image">
+            zuijianren
+          </div>
+          <i class="dropdown icon"></i>
+          <div class="menu">
+            <a href="#" th:href="@{/admin/logout}" class="item">注销</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a href="#" class="m-sidebar ui button icon black m-right-top m-mobile-show">
+    <i class="sidebar icon"></i>
+  </a>
+</nav>
+
+<!--二级导航-->
+<div class="ui attached pointing menu">
+  <div class="ui container">
+    <div class="right menu">
+      <a href="#" th:href="@{/admin/types/input}" class="item">发布</a>
+      <a href="#" th:href="@{/admin/types}" class="item active teal">列表</a>
+    </div>
+  </div>
+</div>
+
+<!--中间内容-->
+<div  class="m-container-small m-padded-tb-huge ">
+  <div class="ui container">
+    <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
+      <i class="close icon"></i>
+      <div class="header">提示：</div>
+      <p th:text="${message}">恭喜，操作成功</p>
+    </div>
+    <div class="ui red message" th:unless="${#strings.isEmpty(warn)}">
+      <i class="close icon"></i>
+      <div class="header">操作失败：</div>
+      <p th:text="${warn}">抱歉，操作失败</p>
+    </div>
+
+    <table class="ui celled teal table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>分类名称</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="type, itemStat : ${page.list}">
+          <td th:text="${itemStat.count}">1</td>
+          <td th:text="${type.name}">刻意练习清单</td>
+          <td>
+            <a href="#" th:href="@{/admin/types/{id}/input(id=${type.id})}" class="ui mini teal basic  button">编辑</a>
+            <a href="#" th:href="@{/admin/types/{id}/delete(id=${type.id})}" class="ui mini red  basic button">删除</a>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th colspan="3" >
+            <div class="ui three column grid">
+              <div class="left aligned column">
+                <div class="ui mini pagination menu" th:if="${page.totalPages}>1">
+                  <a href="#" th:href="@{/admin/types/{page}(page=${page.page}-1)}" th:unless="${page.first}" class="item">上一页</a>
+                  <a href="#" th:href="@{/admin/types/{page}(page=${page.page}+1)}" th:unless="${page.last}" class="item">下一页</a>
+                </div>
+              </div>
+              <div class="left aligned column">
+                <p th:text="'第'+${page.page}+'页/共'+${page.totalPages}+'页 共'+${page.totalElements}+'条数据'" class="m-padded-tb-tiny center aligned m-text " >
+                  第1页/共3页 共13条数据
+                </p>
+              </div>
+              <div class="right aligned column">
+                <a href="#" th:href="@{/admin/types/input}" class="ui mini right floated teal basic button">新增</a>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+
+<!--底部footer-->
+<footer th:replace="admin/_fragments :: footer" class="ui inverted vertical segment">
+  <div class="ui  container center aligned">
+    <!--共计16列-->
+    <div class="ui inverted divided stackable grid">
+      <div class="three wide column ">
+        <div class="ui inverted link list">
+          <div class="item">
+            <img src="./../../static/images/zaixia.jfif" th:src="@{/images/zaixia.jfif}" alt="" class="ui rounded image " style="width: 100px">
+          </div>
+        </div>
+      </div>
+      <div class="three wide column">
+        <h4 class="ui inverted header m-text-thin m-text-spaced m-text-lined ">最新博客</h4>
+        <div class="ui inverted link list">
+          <a href="#" class="item">用户故事（用户1）</a>
+          <a href="#" class="item">用户故事（用户1）</a>
+          <a href="#" class="item">用户故事（用户1）</a>
+        </div>
+      </div>
+      <div class="three wide column">
+        <h4 class="ui inverted header m-text-thin m-text-spaced m-text-lined">联系我</h4>
+        <div class="ui inverted link list ">
+          <a href="#" class="item">Email: 1460742681@qq.com</a>
+          <a href="#" class="item">QQ: 1460742681</a>
+        </div>
+      </div>
+      <div class="seven wide column">
+        <h4 class="ui inverted header  m-text-thin m-text-spaced m-text-lined">最新博客</h4>
+        <p class="m-opacity-mini m-text-thin m-text-spaced m-text-lined">这是我的个人博客，会分享关于编程，写作，思考相关的任何内容，希望可以给来到这的人有所帮助</p>
+      </div>
+    </div>
+    <div class="ui inverted section divider"></div>
+    <a class="m-opacity-tiny m-text-thin m-text-spaced m-text-lined" href="http://www.beian.miit.gov.cn" style="color: white">蜀ICP备19036253号</a>
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+  <script>
+    $('.m-sidebar').click(function(){
+      $('.m-item').toggleClass('m-mobile-hide');
+    });
+    $('.ui.dropdown').dropdown({
+      on: 'hover'
+    })
+  //  消息提示关闭初始化
+    $('.message .close').on('click', function(){
+      $(this)
+              .closest('.message')
+              .transition('fade');
+    })
+  </script>
+</body>
+</html>

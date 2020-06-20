@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zuijianren.blog.mapper.TypeMapper">
+    <select id="count" resultType="int">
+        select count(*) from t_type
+    </select>
+    <select id="list" resultType="type">
+        select * from t_type order by ${sort} limit #{star}, #{size}
+    </select>
+    <select id="findByName" parameterType="string" resultType="type">
+        select * from t_type where name = #{name}
+    </select>
+    <select id="findById" parameterType="long" resultType="type">
+        select * from t_type where id = #{id}
+    </select>
+    <select id="findAll" resultType="type">
+        select * from t_type order by name
+    </select>
+    <select id="listTop" resultType="type">
+        select
+            t.*,
+            count(*) as num
+        from
+            t_blog as b ,
+            t_type as t
+        where
+            b.published = true
+        and
+            b.type_id = t.id
+        group by t.id
+        order by num DESC
+        limit 0,6
+    </select>
+    <select id="listAll" resultType="type">
+        select
+            t.*,
+            count(*) as num
+        from
+            t_blog as b ,
+            t_type as t
+        where
+            b.published = true
+        and
+            b.type_id = t.id
+        group by t.id
+        order by num DESC
+    </select>
+    <insert id="save" parameterType="type">
+        insert into t_type(id, name)  value(#{type.id}, #{type.name})
+    </insert>
+    <update id="update" parameterType="type" >
+        update t_type set name = #{type.name} where id = #{type.id}
+    </update>
+    <delete id="delete" parameterType="long" >
+        delete from t_type where id = #{id}
+    </delete>
+</mapper>
