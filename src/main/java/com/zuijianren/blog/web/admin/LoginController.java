@@ -3,7 +3,6 @@ package com.zuijianren.blog.web.admin;
 import com.zuijianren.blog.pojo.User;
 import com.zuijianren.blog.service.UserService;
 import com.zuijianren.blog.util.MD5Utils;
-import org.apache.tomcat.util.security.MD5Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

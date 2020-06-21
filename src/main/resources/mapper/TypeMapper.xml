@@ -46,7 +46,7 @@
         order by num DESC
     </select>
     <insert id="save" parameterType="type">
-        insert into t_type(id, name)  value(#{type.id}, #{type.name})
+        insert into t_type(id, name)  values(#{type.id}, #{type.name})
     </insert>
     <update id="update" parameterType="type" >
         update t_type set name = #{type.name} where id = #{type.id}

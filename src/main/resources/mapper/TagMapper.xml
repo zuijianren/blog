@@ -36,7 +36,7 @@
         order by num desc
     </select>
     <insert id="save" parameterType="tag">
-        insert into t_tag(id, name)  value(#{tag.id}, #{tag.name})
+        insert into t_tag(id, `name`)  values(#{tag.id},  #{tag.name} )
     </insert>
     <update id="update" parameterType="tag" >
         update t_tag set name = #{tag.name} where id = #{tag.id}
