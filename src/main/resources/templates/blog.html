@@ -44,7 +44,7 @@
   <div class="ui container" th:object="${blog}" >
     <!--头部-->
     <div class="ui top attached segment  ">
-      <div class="ui  horizontal link list">
+      <div class="ui  relaxed horizontal link list">
         <div class="item">
           <img src="https://picsum.photos/id/1010/100/100" th:src="@{*{user.avatar}}" alt="" class="ui avatar image">
           <div class="content">
@@ -52,10 +52,16 @@
           </div>
         </div>
         <div class="item">
-          <i class="calendar icon"></i><span th:text="*{#dates.format(updateTime,'yyyy-MM-dd')}">2020-6-01</span>
+          <i class="fitted calendar alternate icon"></i>
+          <span  th:text="*{#dates.format(createTime,'yyyy-MM-dd')}">2020-6-01</span>
         </div>
         <div class="item">
-          <i class="eye icon"></i><span th:text="*{views}">22</span>
+          <i class="fitted eye icon"></i>
+          <span th:text="*{views}">22</span>
+        </div>
+        <div class="item" >
+          <i class="fitted calendar alternate outline icon"></i>
+          <span>更新时间: </span><span th:text="*{#dates.format(updateTime,'MM-dd  HH:mm')}">2020-6-01</span>
         </div>
       </div>
     </div>
@@ -68,7 +74,7 @@
       <div class="ui basic segment  right aligned">
         <div class="ui orange basic label" th:text="*{flag}">原创</div>
       </div>
-      <h2 class="ui center aligned header " th:text="*{title}">匆匆</h2>
+      <h1 class="ui center aligned header " th:text="*{title}">匆匆</h1>
       <br/>
 
       <!--文章内容-->

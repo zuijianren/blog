@@ -96,6 +96,7 @@ public class BlogServiceImpl implements BlogService {
         }
         //blog的浏览次数加 1
         blogMapper.updateViews(id);
+        blog.setViews(blog.getViews()+1);
         Blog b = new Blog();
         BeanUtils.copyProperties(blog,b);
         String content = b.getContent();
