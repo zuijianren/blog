@@ -1,7 +1,7 @@
 # blog
 个人博客
 
-网站：www.zuijianren.com
+网站：www.zuijianren.com/blog
 
 ## 技术栈：
 1. springboot
