@@ -205,7 +205,7 @@
             content = #{blog.content},
             firstPicture = #{blog.firstPicture},
             flag = #{blog.flag},
-            views = #{blog.views},
+            /*views = #{blog.views},*/
             appreciation = #{blog.appreciation},
             shareStatement = #{blog.shareStatement},
             commentabled = #{blog.commentabled},
